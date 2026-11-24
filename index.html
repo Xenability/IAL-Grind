@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jan 2027 IAL Grind Tracker</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f5fa;--grid:#dfe5f1;--card:#fff;--ink:#14213d;--mut:#5d6985;--line:#d5dcec;--hl:#ffd23f;--acc:#2f5bea;--good:#16a34a;--warn:#d97706;--bad:#e5484d;--r:14px}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0e1526;--grid:#18223a;--card:#162039;--ink:#e8ecf6;--mut:#93a0bf;--line:#26324f;--acc:#7c9bff}}
+:root[data-theme=dark]{--bg:#0e1526;--grid:#18223a;--card:#162039;--ink:#e8ecf6;--mut:#93a0bf;--line:#26324f;--acc:#7c9bff}
+*{box-sizing:border-box}
+html{scroll-padding-top:70px}
+body{margin:0;font:15px/1.5 "Instrument Sans",system-ui,sans-serif;color:var(--ink);background:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;margin:0;line-height:1.1}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{max-width:1040px;margin:auto;display:flex;align-items:center;gap:18px;padding:10px 16px}
+.brand{font:800 18px "Bricolage Grotesque",sans-serif;white-space:nowrap}
+.brand b{background:var(--hl);color:#14213d;padding:0 6px;border-radius:4px}
+nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav button{border:0;background:none;padding:7px 12px;border-radius:99px;color:var(--mut);white-space:nowrap;font-weight:500}
+nav button.on{background:var(--ink);color:var(--bg)}
+nav button:focus-visible,.btn:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+main{max-width:1040px;margin:auto;padding:18px 16px 70px}
+.view{display:none}.view.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:14px}
+.row{display:flex;gap:14px;flex-wrap:wrap}.row>*{flex:1 1 280px}
+.hero{padding:26px 22px;border-radius:20px;background:var(--ink);color:var(--bg);margin-bottom:14px;position:relative;overflow:hidden}
+.hero small{opacity:.75}
+.big{font:800 clamp(84px,22vw,170px)/.9 "Bricolage Grotesque",sans-serif;display:inline-block;background:linear-gradient(transparent 62%,var(--hl) 62% 92%,transparent 92%);color:inherit;padding:0 8px;margin:10px 0 4px -8px;color:var(--bg)}
+.hero h1{font-size:clamp(22px,4vw,30px)}
+.btn{border:1px solid var(--line);background:var(--card);padding:8px 14px;border-radius:10px;font-weight:600}
+.btn.p{background:var(--hl);border-color:var(--hl);color:#14213d}
+.btn.s{padding:4px 9px;font-size:13px}
+.hero .btn{background:transparent;border-color:rgba(255,255,255,.35);color:inherit}.hero .btn.p{background:var(--hl);color:#14213d;border-color:var(--hl)}
+.clock{font:800 clamp(34px,8vw,52px) "Bricolage Grotesque",sans-serif;font-variant-numeric:tabular-nums}
+.mut{color:var(--mut)}.sm{font-size:13px}
+.prog{height:9px;background:var(--line);border-radius:9px;overflow:hidden}.prog i{display:block;height:100%;background:var(--acc);border-radius:9px;transition:width .3s}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:99px;color:#14213d}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px}.stat b{font:800 28px "Bricolage Grotesque";display:block}
+.goal{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.goal.d .tx{text-decoration:line-through;opacity:.5}
+.goal input[type=checkbox]{width:20px;height:20px;accent-color:var(--good)}
+.tx{flex:1 1 160px}
+input[type=number],input[type=text],input[type=date],input[type=time],select{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+input[type=number]{width:70px}
+.form{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.rec{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line);flex-wrap:wrap}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chip{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:4px 9px;font-size:13px}
+.chip.s1{background:#3b82f6;color:#fff;border-color:#3b82f6}.chip.g{background:var(--good);color:#fff;border-color:var(--good)}.chip.a{background:var(--warn);color:#fff;border-color:var(--warn)}.chip.r{background:var(--bad);color:#fff;border-color:var(--bad)}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line)}th{color:var(--mut);font-weight:500;font-size:13px}
+.tl{position:relative;margin-left:10px;padding-left:22px;border-left:3px solid var(--line)}
+.tl>div{position:relative;padding-bottom:18px}.tl>div:before{content:"";position:absolute;left:-30px;top:4px;width:13px;height:13px;border-radius:50%;background:var(--card);border:3px solid var(--acc)}
+.tl .now:before{background:var(--hl);border-color:var(--ink)}
+.heat{display:grid;grid-template-columns:repeat(14,1fr);gap:4px}.heat i{aspect-ratio:1;border-radius:4px;background:var(--line)}
+.timer{font:800 clamp(64px,18vw,120px)/1 "Bricolage Grotesque";text-align:center;font-variant-numeric:tabular-nums;margin:10px 0}
+.warn{background:color-mix(in srgb,var(--warn) 14%,var(--card));border-color:var(--warn)}
+.bars{display:flex;gap:4px;align-items:flex-end;height:46px;margin-top:6px}.bars i{flex:1;background:var(--acc);border-radius:3px 3px 0 0}details{margin-top:10px}summary{cursor:pointer}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="bar"><div class="brand"><b>IAL</b> Grind</div>
+<nav id="nav"></nav></div></header>
+<main>
+<section class="view" id="v-home"></section>
+<section class="view" id="v-today"></section>
+<section class="view" id="v-papers"></section>
+<section class="view" id="v-schedule"></section>
+<section class="view" id="v-stats"></section>
+<section class="view" id="v-focus">
+ <div class="card"><h2>Pomodoro</h2><p class="mut" id="tph"></p>
+ <div class="timer" id="tm">25:00</div>
+ <div class="form" style="justify-content:center"><span id="dots" style="letter-spacing:4px"></span><select id="tsub" aria-label="Subject"></select></div>
+ <div class="form" style="justify-content:center;margin-top:14px"><button class="btn p" id="tgo" data-act="tgo">Start</button><button class="btn" data-act="tsk">Skip</button><button class="btn" data-act="trs">Reset</button><button class="btn" data-act="tst">Test alarm</button></div>
+ <p class="mut sm" id="tnote" style="text-align:center"></p></div>
+</section>
+<section class="view" id="v-settings"></section>
+</main>
+<script>
+const SUB=[
+{id:'FP1',n:'Further Pure 1',code:'WFM01',d:'2027-01-14',m:90,c:'#c4b5fd'},
+{id:'CHEM',n:'Chemistry U4',code:'WCH14',d:'2027-01-18',m:105,c:'#6ee7b7',f:1},
+{id:'S2',n:'Statistics 2',code:'WST02',d:'2027-01-18',m:90,c:'#fde68a',f:1},
+{id:'D1',n:'Decision Maths 1',code:'WDM11',d:'2027-01-19',m:90,c:'#93c5fd',f:1},
+{id:'PHY',n:'Physics U4',code:'WPH14',d:'2027-01-19',m:105,c:'#fca5a5',f:1},
+{id:'M2',n:'Mechanics 2',code:'WME02',d:'2027-01-20',m:90,c:'#f9a8d4'}];
+const TYPES={redo:'♻️ Redo paper',learn:'📖 Learn the content',paper:'📝 Past paper',topic:'🎯 Topical questions',review:'🔁 Review mistakes'};
+const CONF=['Not reviewed yet','Just started','Half covered','Content covered','Confident','Exam ready'];
+const KEY='ial-jan27-v1';
+const $=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0');
+const ymd=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const day=s=>new Date(s+'T00:00:00');
+const diff=(a,b)=>Math.round((day(a)-day(b))/864e5);
+const todayS=()=>ymd(new Date());
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const sub=id=>SUB.find(s=>s.id===id)||{n:'General',c:'#d1d5db',m:60,id:'GEN'};
+let S={};try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
+S.goals=S.goals||{};S.mist=S.mist||[];S.qs=S.qs||[];S.fl=S.fl||[];S.papers=S.papers||{};S.conf=S.conf||{};S.focus=S.focus||{};S.start=S.start||todayS();
+S.set=Object.assign({cut:'23:30',hours:5,target:6,theme:'auto',pf:25,ps:5,pl:15,vol:.6},S.set);
+const defP=()=>{const a=[];for(let y=2019;y<=2026;y++)['Jan','Jun','Oct'].forEach(m=>a.push({l:m+' '+y,st:0,sc:null}));return a};
+SUB.forEach(s=>{if(!S.papers[s.id])S.papers[s.id]=defP()});
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+let vd=todayS(),R=[];
+const doneP=id=>S.papers[id].filter(p=>p.st>0).length;
+const planned=d=>(S.goals[d]||[]).reduce((a,g)=>a+g.min,0);
+const dayMin=d=>(S.goals[d]||[]).filter(g=>g.done).reduce((a,g)=>a+g.min,0)+(S.focus[d]||0);
+const fmt=m=>m>=60?Math.floor(m/60)+'h '+(m%60?pad(m%60)+'m':''):m+'m';
+const firstExam=()=>SUB.map(s=>s.d).sort()[0];
+const lastExam=()=>SUB.map(s=>s.d).sort().pop();
+const cutDate=()=>{const[h,m]=S.set.cut.split(':');const d=new Date();d.setHours(+h,+m,0,0);return d};
+function streak(){let n=0,d=new Date();if(!dayMin(ymd(d)))d.setDate(d.getDate()-1);while(dayMin(ymd(d))>0){n++;d.setDate(d.getDate()-1)}return n}
+function phase(){const dd=diff(firstExam(),todayS());return dd>45?['Learn phase','Cover every syllabus gap. Learn first, drill second.']:dd>14?['Drill phase','Past papers daily. Mark hard, log every mistake.']:dd>=0?['Polish phase','Redo weak papers, review mistakes, sleep well.']:['Exam window','Final papers. Trust the work you did.']}
+function msg(dd){return dd>60?'Plenty of time looks like no time. Start while it feels easy.':dd>30?'Every paper done now is one less to cram later.':dd>14?'Crunch time is close. Protect your daily goals.':dd>3?'Final stretch. Fix weak topics, not strong ones.':dd>=0?'Almost there. Rest, review, execute.':'Exams are underway. Good luck!'}
+/* ---------- analysis ---------- */
+const avg=id=>{const v=S.papers[id].filter(p=>p.sc!=null);return v.length?v.reduce((a,p)=>a+p.sc,0)/v.length:null};
+const mOpen=id=>S.mist.filter(m=>m.sub===id&&!m.fixed);
+const weakT=id=>{const c={};mOpen(id).forEach(m=>{const k=m.topic||'Unspecified';c[k]=(c[k]||0)+1});return Object.entries(c).sort((a,b)=>b[1]-a[1])};
+const pOpen=(id,l)=>S.mist.filter(m=>m.sub===id&&m.paper===l&&!m.fixed).length;
+const redoQ=id=>S.papers[id].map((p,i)=>({p,i,n:pOpen(id,p.l)})).filter(({p,n})=>p.st>0&&!(p.rd!=null&&p.rd>=75)&&(n>0||(p.sc!=null&&p.sc<65))).map(x=>({...x,pr:(x.p.sc==null?50:100-x.p.sc)+x.n*10})).sort((a,b)=>b.pr-a.pr);
+const ETYPES=['Concept gap','Method','Calculation','Careless','Misread question','Time pressure','Forgot formula'];
+const pOpts=id=>'<option value="">Topical / no paper</option>'+S.papers[id].filter(p=>p.st>0).map(p=>`<option>${esc(p.l)}</option>`).join('');
+/* ---------- recommendation ---------- */
+function recs(d){
+ const isT=d===todayS();const left=isT?Math.max(0,(cutDate()-Date.now())/6e4):1440;
+ let budget=Math.min(S.set.hours*60,left)-planned(d);const out=[];
+ const exd={};SUB.forEach(s=>exd[s.d]=(exd[s.d]||0)+1);
+ const last=id=>{let l=null;const up=k=>{if(k<=d&&(!l||k>l))l=k};for(const k in S.goals)if(S.goals[k].some(g=>g.sub===id&&g.done))up(k);S.fl.forEach(f=>f.s===id&&up(f.d));return l};
+ const sc=SUB.map(s=>{const dd=diff(s.d,d);if(dd<0)return null;
+  const rem=Math.max(0,S.set.target-doneP(s.id)),conf=S.conf[s.id]||0,av=avg(s.id),l=last(s.id),idle=l?diff(d,l):7,open=mOpen(s.id).length;
+  const ex=(S.goals[d]||[]).filter(g=>g.sub===s.id).length;
+  const need=rem*(s.m+30)+(5-conf)*45+(av==null?40:(100-av)*1.2)+open*8;
+  const u=need/Math.max(1,dd)*(1+Math.min(.6,idle*.1))*(exd[s.d]>1?1.15:1)/(1+ex*1.2);
+  return{s,dd,rem,conf,av,idle,open,u,learn:0,redo:0,top:0}}).filter(Boolean);
+ for(let i=0;i<8&&budget>=30&&sc.length;i++){
+  sc.sort((a,b)=>b.u-a.u);const t=sc[0],s=t.s,w=weakT(s.id)[0],rq=redoQ(s.id)[0],full=s.m+30,why=[];let type,min,text='';
+  if(t.conf<=1&&!t.learn){type='learn';min=t.conf?60:90;t.learn=1;why.push(t.conf?'only just started':'not reviewed yet')}
+  else if(rq&&!t.redo&&(t.dd<=21||t.open>=3||t.rem===0)&&budget>=s.m){type='redo';min=s.m+20;text=rq.p.l;t.redo=1;why.push(rq.n?rq.n+' unfixed mistakes there':'scored '+rq.p.sc+'% before')}
+  else if(w&&!t.top&&(budget<full||t.rem===0||(t.conf>=2&&w[1]>=2))){type='topic';min=45;text=w[0];t.top=1;why.push('weak point, '+w[1]+' open mistake'+(w[1]>1?'s':''))}
+  else if(t.rem>0&&budget>=s.m+10){type='paper';min=full;const nx=[...S.papers[s.id]].reverse().find(p=>!p.st);text=nx?nx.l:'';why.push(t.rem+' paper'+(t.rem>1?'s':'')+' short of target')}
+  else{type='review';min=30;why.push('keep it fresh')}
+  if(t.av!=null&&t.av<60)why.push('avg '+Math.round(t.av)+'%');if(t.idle>=3)why.push(t.idle>=7?'untouched for a week+':'untouched '+t.idle+' days');
+  min=Math.min(min,Math.floor(budget/5)*5);if(min<25)break;
+  out.push({sub:s.id,type,min,text,why:why.join(' · ')+' · exam in '+t.dd+'d'});budget-=min;t.u*=.35;t.idle=0}
+ return out}
+/* ---------- stats ---------- */
+function stats(){
+ const aw={};S.mist.filter(m=>!m.fixed).forEach(m=>{const k=m.sub+' · '+(m.topic||'Unspecified');aw[k]=(aw[k]||0)+1});
+ const top=Object.entries(aw).sort((a,b)=>b[1]-a[1]).slice(0,5),nq=SUB.reduce((a,s)=>a+redoQ(s.id).length,0);
+ $('#v-stats').innerHTML=`<div class="card"><h2>Mistake log</h2><p class="mut sm">Log every lost mark. The more specific the point, the better your statistics and daily suggestions.</p>
+ <div class="form"><select id="ms">${SUB.map(s=>`<option value="${s.id}">${s.n}</option>`).join('')}</select><select id="mp">${pOpts(SUB[0].id)}</select><input type="text" id="mt" placeholder="Point (e.g. Le Chatelier)"><select id="me">${ETYPES.map(e=>`<option>${e}</option>`).join('')}</select></div>
+ <div class="form" style="margin-top:8px"><input type="text" id="md" placeholder="What went wrong, and the correct method" style="flex:1 1 240px"><button class="btn p" data-act="madd">Save mistake</button></div></div>
+ <div class="stats"><div class="stat"><b>${S.mist.filter(m=>!m.fixed).length}</b><span class="sm mut">open mistakes</span></div><div class="stat"><b>${nq}</b><span class="sm mut">papers to redo</span></div><div class="stat"><b>${S.mist.filter(m=>m.fixed).length}</b><span class="sm mut">confirmed fixed</span></div></div>
+ ${top.length?`<div class="card"><h3>Weakest points overall</h3>${top.map(([k,n])=>`<div class="sm" style="margin-top:8px">${esc(k)} <b>×${n}</b><div class="prog"><i style="width:${n/top[0][1]*100}%;background:var(--bad)"></i></div></div>`).join('')}</div>`:''}
+ ${SUB.map(s=>{const sc=S.papers[s.id].filter(p=>p.sc!=null).map(p=>p.sc),av=avg(s.id),w=weakT(s.id),rq=redoQ(s.id),ms=S.mist.filter(m=>m.sub===s.id),et={};mOpen(s.id).forEach(m=>et[m.type]=(et[m.type]||0)+1);
+ return`<div class="card"><h3><span class="tag" style="background:${s.c}">${s.id}</span> ${s.n}</h3>
+ <div class="row" style="margin-top:10px"><div><div class="sm mut">Average ${av==null?'–':Math.round(av)+'%'} · best ${sc.length?Math.max(...sc):'–'}% · last 8 scores</div><div class="bars">${sc.slice(-8).map(v=>`<i style="height:${Math.max(4,v*.46)}px" title="${v}%"></i>`).join('')||'<span class="sm mut">No scores yet. Log them in Papers.</span>'}</div>
+ <div class="sm mut" style="margin-top:8px">Error types: ${Object.entries(et).map(([k,n])=>k+' ×'+n).join(', ')||'none open'}</div></div>
+ <div><div class="sm mut">Weak points</div>${w.slice(0,4).map(([k,n])=>`<div class="sm">${esc(k)} <b>×${n}</b></div>`).join('')||'<span class="sm mut">Nothing open</span>'}</div></div>
+ <h3 style="font-size:16px;margin:14px 0 2px">Redo queue</h3>${rq.length?rq.map(({p,i,n})=>`<div class="rec"><span class="tx">${esc(p.l)} <span class="sm mut">first try ${p.sc==null?'–':p.sc+'%'}${p.rd!=null?' · redo '+p.rd+'%':''} · ${n} open mistake${n===1?'':'s'}</span></span><button class="btn s" data-act="rd" data-s="${s.id}" data-i="${i}">Log redo</button></div>`).join(''):'<p class="sm mut">Nothing to redo. Papers land here when they score under 65% or have unfixed mistakes. A redo of 75% or more confirms the fix.</p>'}
+ ${ms.length?`<details><summary class="sm">All mistakes (${ms.length})</summary>${ms.map(m=>`<div class="goal ${m.fixed?'d':''}"><input type="checkbox" data-act="mfix" data-id="${m.id}" ${m.fixed?'checked':''} aria-label="Fixed"><span class="tx">${esc(m.topic||'Unspecified')} · ${m.type}<br><span class="sm mut">${esc(m.paper||'topical')} · ${esc(m.detail)}</span></span><button class="btn s" data-act="mdel" data-id="${m.id}" aria-label="Delete">✕</button></div>`).join('')}</details>`:''}</div>`}).join('')}`}
+/* ---------- quotes ---------- */
+const QA=['Marks are built in ordinary hours','Nobody regrets a paper they finished','Your final grade is being typed today','Discipline is a quiet kind of speed','Tired is a feeling, progress is a fact','The syllabus is finite and you are not','Small sessions stack into big results','Hard topics are easy topics you have not met enough','Confidence is a receipt for work already done','The exam rewards habit, not mood','Every mistake you log is a mark saved','Slow and daily beats fast and rare'];
+const QB=['so open the next paper.','so start the timer right now.','so do one more question.','so fix one mistake properly.','so begin before you feel ready.','so attack your weakest topic first.','so finish what you planned today.','so protect your next hour.','so mark honestly and learn from it.','so make today count.','so write the method out slowly.','so keep the streak alive.'];
+const rnd=n=>Math.floor(Math.random()*n);
+function quote(){const t=todayS();if(S.qd&&S.qd.d===t)return S.qd.t;const dd=diff(firstExam(),t),st=streak();
+ const C=['',' Ten focused minutes beat zero.',' Future you is watching.',dd>0?' '+dd+' days to go.':' Execute.',st?' Your streak is '+st+' day'+(st>1?'s':'')+'.':' Start a streak today.',' Stay boringly consistent.',' You have done harder things.',' One paper at a time.'];
+ let a,b,c,k,n=0;do{a=rnd(12);b=rnd(12);c=rnd(C.length);k=a+'.'+b+'.'+c;n++}while(S.qs.includes(k)&&n<500);
+ S.qs.push(k);if(S.qs.length>1000)S.qs=[];S.qd={d:t,t:QA[a]+', '+QB[b]+C[c]};save();return S.qd.t}
+/* ---------- views ---------- */
+const TABS=[['home','Home'],['today','Daily goals'],['papers','Papers'],['stats','Stats'],['schedule','Timetable'],['focus','Focus'],['settings','Settings']];
+function nav(t){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+t));
+ document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));location.hash=t;scrollTo(0,0)}
+function home(){
+ const t=todayS(),dd=diff(firstExam(),t),fs=SUB.find(s=>s.d===firstExam());const [ph,pt]=phase();
+ const pl=planned(t),dn=(S.goals[t]||[]).filter(g=>g.done).reduce((a,g)=>a+g.min,0),pct=pl?Math.round(dn/pl*100):0;
+ const totalPapers=SUB.reduce((a,s)=>a+doneP(s.id),0),tot=Object.keys(S.goals).concat(Object.keys(S.focus)).reduce((a,d,i,arr)=>arr.indexOf(d)===i?a+dayMin(d):a,0);
+ let heat='';for(let i=27;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const m=dayMin(ymd(d));heat+=`<i title="${ymd(d)}: ${m} min" style="${m?`background:var(--acc);opacity:${Math.min(1,.3+m/240)}`:''}"></i>`}
+ $('#v-home').innerHTML=`<div class="hero"><small>${ph} · ${pt}</small>
+ <h1 style="margin-top:8px">${dd>0?'Days until your first paper':dd===0?'Your first paper is today':'Exam window is open'}</h1>
+ <div class="big">${Math.max(dd,0)}</div><div>${fs.n} · ${day(fs.d).toDateString().slice(0,10)} 2027</div>
+ <p style="max-width:46ch;opacity:.92;font-size:17px">${quote()}</p><p><button class="btn s" data-act="nq">New quote</button></p>
+ <div class="form"><button class="btn p" data-act="go" data-t="today">Plan today’s goals</button><button class="btn" data-act="go" data-t="papers">Log a paper</button></div></div>
+ <div class="row"><div class="card"><div class="mut sm">Today ends at ${S.set.cut} in</div><div class="clock" id="clk">--:--:--</div>
+ <div class="prog" style="margin:10px 0 6px"><i style="width:${pct}%"></i></div><div class="sm mut">${fmt(dn)} of ${fmt(pl)} planned goals done${pl?'':' (no goals yet)'}</div></div>
+ <div class="stats" style="margin:0;align-content:start"><div class="stat"><b>${streak()}</b><span class="sm mut">day streak</span></div><div class="stat"><b>${totalPapers}</b><span class="sm mut">papers done</span></div><div class="stat"><b>${fmt(tot)}</b><span class="sm mut">total study time</span></div></div></div>
+ <div class="card"><h3 style="margin-bottom:10px">Subjects</h3>${SUB.map(s=>{const p=doneP(s.id),d=diff(s.d,t);return`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><span><span class="tag" style="background:${s.c}">${s.id}</span> ${s.n}</span><span class="sm mut">${d>=0?d+' days left':'finished'} · ${CONF[S.conf[s.id]||0]}</span></div><div class="prog" style="margin-top:5px"><i style="width:${Math.min(100,p/S.set.target*100)}%;background:${s.c}"></i></div><div class="sm mut">${p}/${S.set.target} target papers</div></div>`}).join('')}</div>
+ <div class="card"><h3 style="margin-bottom:10px">Last 28 days</h3><div class="heat">${heat}</div></div>`}
+function today(){
+ const g=S.goals[vd]||[];R=recs(vd);const pl=planned(vd),dn=g.filter(x=>x.done).reduce((a,x)=>a+x.min,0);
+ $('#v-today').innerHTML=`<div class="card"><div class="form"><button class="btn s" data-act="dn" data-n="-1">‹</button><input type="date" id="vd" value="${vd}"><button class="btn s" data-act="dn" data-n="1">›</button><button class="btn s" data-act="dn" data-n="0">Today</button></div>
+ <h2 style="margin:14px 0 8px">${vd===todayS()?'Today':day(vd).toDateString()}</h2>
+ <div class="prog"><i style="width:${pl?dn/pl*100:0}%"></i></div><p class="sm mut">${fmt(dn)} done of ${fmt(pl)} planned · daily budget ${S.set.hours}h</p>
+ ${g.length?g.map((x,i)=>{const s=sub(x.sub);return`<div class="goal ${x.done?'d':''}"><input type="checkbox" data-act="tick" data-i="${i}" ${x.done?'checked':''} aria-label="Done"><span class="tag" style="background:${s.c}">${s.id}</span><span class="tx">${TYPES[x.type]||''}${x.text?' – '+esc(x.text):''}</span><input type="number" step="5" min="5" value="${x.min}" data-act="gm" data-i="${i}" aria-label="Minutes"><span class="sm mut">min</span><button class="btn s" data-act="gf" data-i="${i}">▶ Focus</button><button class="btn s" data-act="gx" data-i="${i}" aria-label="Delete">✕</button></div>`}).join(''):'<p class="mut">No goals yet. Accept a suggestion below or add your own.</p>'}</div>
+ <div class="card"><h3>Suggested for you</h3><p class="sm mut">Ranked by days left, papers remaining and how well you know each subject.</p>
+ ${R.length?R.map((r,i)=>`<div class="rec"><span class="tag" style="background:${sub(r.sub).c}">${r.sub}</span><span class="tx">${TYPES[r.type]}${r.text?' – '+esc(r.text):''} · ${fmt(r.min)}<br><span class="sm mut">${r.why}</span></span><button class="btn s p" data-act="ar" data-i="${i}">Add</button></div>`).join('')+'<p><button class="btn" data-act="aall">Add all suggestions</button></p>':'<p class="mut">Your time budget for this day is full, or there is no time left.</p>'}</div>
+ <div class="card"><h3 style="margin-bottom:10px">Add your own goal</h3><div class="form"><select id="ns">${SUB.map(s=>`<option value="${s.id}">${s.n}</option>`).join('')}<option value="GEN">General</option></select>
+ <select id="nt">${Object.entries(TYPES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select><input type="number" id="nm" step="5" min="5" value="90" aria-label="Minutes"> min
+ <input type="text" id="nx" placeholder="Note (optional)"><button class="btn p" data-act="add">Add goal</button></div></div>`}
+function chipCls(p){return !p.st?'':p.sc==null?'s1':p.sc>=80?'g':p.sc>=60?'a':'r'}
+function papers(){$('#v-papers').innerHTML=SUB.map(s=>{const ps=S.papers[s.id];return`<div class="card"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center"><h3><span class="tag" style="background:${s.c}">${s.code}</span> ${s.n}</h3><select data-act="conf" data-s="${s.id}" aria-label="Revision status">${CONF.map((c,i)=>`<option value="${i}" ${(S.conf[s.id]||0)===i?'selected':''}>${c}</option>`).join('')}</select></div>
+ <p class="sm mut">${doneP(s.id)} of ${ps.length} done · avg ${(()=>{const v=ps.filter(p=>p.sc!=null);return v.length?Math.round(v.reduce((a,p)=>a+p.sc,0)/v.length)+'%':'–'})()} · tap a paper to log it</p>
+ <div class="chips">${ps.map((p,i)=>`<button class="chip ${chipCls(p)}" data-act="pp" data-s="${s.id}" data-i="${i}">${esc(p.l)}${p.sc!=null?' · '+p.sc+'%':''}</button>`).join('')}</div>
+ <div class="form"><input type="text" id="np-${s.id}" placeholder="Add paper, e.g. Specimen"><button class="btn s" data-act="padd" data-s="${s.id}">Add</button></div></div>`}).join('')}
+function schedule(){const t=todayS(),a=day(S.start),b=day(lastExam()),pr=Math.max(0,Math.min(100,(day(t)-a)/(b-a)*100));
+ const ex=[...SUB].sort((x,y)=>x.d.localeCompare(y.d));
+ const items=ex.map(s=>({d:s.d,h:`<b>${s.n}</b> <span class="tag" style="background:${s.c}">${s.code}</span><div class="sm mut">PM · ${s.m} min${s.f?' · ⚠ clash flagged on your statement':''}</div>`}));
+ const all=items.concat([{d:t,now:1,h:'<b>You are here</b>'}]).sort((x,y)=>x.d.localeCompare(y.d)||(x.now?-1:1));
+ $('#v-schedule').innerHTML=`<div class="card"><h2>Exam timetable</h2><p class="mut sm">From your Candidate Statement of Entry (Centre 94184).</p>
+ <table><tr><th>Date</th><th>Paper</th><th>Length</th><th>Left</th></tr>${ex.map(s=>`<tr><td>${s.d.split('-').reverse().join('/')}</td><td>${s.n}${s.f?' ⚠':''}</td><td>${s.m}m</td><td><b>${diff(s.d,t)}</b> d</td></tr>`).join('')}</table>
+ <div class="card warn" style="margin:14px 0 0"><b>Possible clashes:</b> Chemistry U4 and S2 share the PM of 18 Jan, and D1 and Physics U4 share the PM of 19 Jan. Pearson marks these with “!”. Ask your exam officer how the supervised gap will work.</div></div>
+ <div class="card"><h2 style="margin-bottom:6px">Timeline</h2><div class="sm mut">Journey progress since ${S.start}</div><div class="prog" style="margin:6px 0 16px"><i style="width:${pr}%"></i></div>
+ <div class="tl">${all.map(i=>`<div class="${i.now?'now':''}"><span class="sm mut">${day(i.d).toDateString().slice(0,10)} · ${i.now?'today':(diff(i.d,t)<0?'done':diff(i.d,t)+' days')}</span><br>${i.h}</div>`).join('')}</div></div>`}
+function settings(){$('#v-settings').innerHTML=`<div class="card"><h2 style="margin-bottom:12px">Settings</h2><div class="form" style="flex-direction:column;align-items:flex-start;gap:12px">
+ <label>Day ends at <input type="time" data-act="set" data-k="cut" value="${S.set.cut}"></label>
+ <label>Study hours per day <input type="number" step="0.5" min="1" max="14" data-act="set" data-k="hours" value="${S.set.hours}"></label>
+ <label>Target papers per subject <input type="number" min="1" max="30" data-act="set" data-k="target" value="${S.set.target}"></label>
+ <label>Focus <input type="number" min="5" max="90" data-act="set" data-k="pf" value="${S.set.pf}"> min</label><label>Short break <input type="number" min="1" max="30" data-act="set" data-k="ps" value="${S.set.ps}"> min</label><label>Long break <input type="number" min="5" max="60" data-act="set" data-k="pl" value="${S.set.pl}"> min</label>
+ <label>Alarm volume <input type="range" min=".05" max="1" step=".05" data-act="set" data-k="vol" value="${S.set.vol}"> <button class="btn s" data-act="tst">Test</button></label>
+ <label>Theme <select data-act="set" data-k="theme">${['auto','light','dark'].map(x=>`<option ${S.set.theme===x?'selected':''}>${x}</option>`).join('')}</select></label></div></div>
+ <div class="card"><h3>Your data</h3><p class="mut sm">Everything is saved in this browser automatically. Export a backup before clearing browser data or switching devices.</p>
+ <div class="form"><button class="btn" data-act="exp">Export backup</button><label class="btn">Import backup<input type="file" id="imp" accept=".json" hidden></label><button class="btn" data-act="reset" style="color:var(--bad)">Erase everything</button></div></div>`}
+function render(){home();today();papers();stats();schedule();settings();
+ const th=S.set.theme;th==='auto'?document.documentElement.removeAttribute('data-theme'):document.documentElement.dataset.theme=th}
+/* ---------- events ---------- */
+const mod=f=>{f();save();render()};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act,i=+b.dataset.i,g=S.goals[vd]=S.goals[vd]||[];
+ if(a==='go')nav(b.dataset.t);
+ else if(a==='dn')mod(()=>{const n=+b.dataset.n;vd=n?ymd(new Date(day(vd).getTime()+n*864e5+36e5)):todayS()});
+ else if(a==='ar')mod(()=>{const r=R[i];g.push({id:Date.now()+i,sub:r.sub,type:r.type,min:r.min,text:r.text||'',done:0})});
+ else if(a==='aall')mod(()=>R.forEach((r,k)=>g.push({id:Date.now()+k,sub:r.sub,type:r.type,min:r.min,text:r.text||'',done:0})));
+ else if(a==='add')mod(()=>g.push({id:Date.now(),sub:$('#ns').value,type:$('#nt').value,min:Math.max(5,+$('#nm').value||30),text:$('#nx').value.trim(),done:0}));
+ else if(a==='gx')mod(()=>g.splice(i,1));
+ else if(a==='gf'){setTimer(g[i].min,g[i].sub,g[i].id);nav('focus')}
+ else if(a==='pp'){const p=S.papers[b.dataset.s][i];const v=prompt(`${p.l}\nScore % (0-100). Leave blank = done, no score.\nType - to mark not done, x to delete this paper.`,p.sc??'');if(v===null)return;
+  mod(()=>{const t=v.trim().toLowerCase();if(t==='x')S.papers[b.dataset.s].splice(i,1);else if(t==='-'){p.st=0;p.sc=null}else{p.st=1;p.sc=t===''||isNaN(+t)?null:Math.max(0,Math.min(100,+t))}})}
+ else if(a==='padd'){const v=$('#np-'+b.dataset.s).value.trim();if(v)mod(()=>S.papers[b.dataset.s].push({l:v,st:0,sc:null}))}
+ else if(a==='exp'){const l=document.createElement('a');l.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:'application/json'}));l.download='ial-grind-backup-'+todayS()+'.json';l.click()}
+ else if(a==='reset'){if(confirm('Erase all goals, papers and settings? This cannot be undone.')){localStorage.removeItem(KEY);location.reload()}}
+ else if(a==='tgo')toggleTimer();else if(a==='trs')setTimer(0,$('#tsub').value);else if(a==='tsk')nextPhase();else if(a==='tst'){AC=AC||new AudioContext();alarm()}
+ else if(a==='nq')mod(()=>S.qd=null);
+ else if(a==='madd'){const t=$('#mt').value.trim(),dt=$('#md').value.trim();if(!t&&!dt){$('#mt').focus();return}mod(()=>S.mist.push({id:Date.now(),sub:$('#ms').value,paper:$('#mp').value,topic:t,type:$('#me').value,detail:dt,date:todayS(),fixed:0}))}
+ else if(a==='mdel')mod(()=>S.mist=S.mist.filter(m=>m.id!=b.dataset.id));
+ else if(a==='rd'){const p=S.papers[b.dataset.s][i];const v=prompt('Redo score for '+p.l+' (%).\n75% or more confirms its mistakes are fixed.');if(v===null||v.trim()===''||isNaN(+v))return;mod(()=>{p.rd=Math.max(0,Math.min(100,+v));if(p.rd>=75)S.mist.forEach(m=>{if(m.sub===b.dataset.s&&m.paper===p.l)m.fixed=1})})}
+});
+document.addEventListener('change',e=>{const b=e.target,a=b.dataset.act,i=+b.dataset.i;
+ if(b.id==='vd'&&b.value)mod(()=>vd=b.value);
+ else if(b.id==='imp'){const r=new FileReader();r.onload=()=>{try{S=JSON.parse(r.result);save();location.reload()}catch(x){alert('That file is not a valid backup.')}};r.readAsText(b.files[0])}
+ else if(a==='tick')mod(()=>S.goals[vd][i].done=b.checked?1:0);
+ else if(a==='gm')mod(()=>S.goals[vd][i].min=Math.max(5,+b.value||5));
+ else if(a==='conf')mod(()=>S.conf[b.dataset.s]=+b.value);
+ else if(a==='set'){mod(()=>S.set[b.dataset.k]=['number','range'].includes(b.type)?+b.value:b.value);if(!T.run){T.left=PD();drawT()}}
+ else if(b.id==='ms')$('#mp').innerHTML=pOpts(b.value);
+ else if(a==='mfix')mod(()=>{S.mist.find(x=>x.id==b.dataset.id).fixed=b.checked?1:0});
+ else if(b.id==='nt'||b.id==='ns'){const t=$('#nt').value,s=sub($('#ns').value);$('#nm').value=t==='learn'?90:t==='paper'?s.m+30:t==='topic'?45:30}});
+/* ---------- pomodoro ---------- */
+let T={ph:'f',left:0,run:0,end:0,int:0,goal:null,n:0},AC;
+const PD=()=>({f:S.set.pf,s:S.set.ps,l:S.set.pl}[T.ph])*60,PN={f:'Focus',s:'Short break',l:'Long break'};
+function alarm(){try{AC=AC||new AudioContext();AC.resume();const t0=AC.currentTime;for(let r=0;r<3;r++)for(let k=0;k<3;k++){const o=AC.createOscillator(),g=AC.createGain(),t=t0+r*1.3+k*.24;o.type='sine';o.frequency.value=[880,1047,1319][k];g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(S.set.vol,t+.02);g.gain.exponentialRampToValueAtTime(.001,t+.22);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.24)}}catch(e){}}
+function setTimer(m,s,gid){clearInterval(T.int);T.ph='f';T.run=0;T.goal=gid||null;T.left=PD();if(s)$('#tsub').value=s;drawT();$('#tgo').textContent='Start';$('#tnote').textContent=gid?'Linked to a daily goal. It ticks off once its minutes are focused.':''}
+function drawT(){$('#tm').textContent=pad(Math.floor(T.left/60))+':'+pad(T.left%60);$('#tm').style.color=T.ph==='f'?'':'var(--good)';
+ $('#tph').textContent=PN[T.ph]+(T.ph==='f'?' · session '+(T.n%4+1)+' of 4':'');$('#dots').textContent='●'.repeat(T.n%4)+'○'.repeat(4-T.n%4);
+ document.title=T.run?$('#tm').textContent+' · '+PN[T.ph]:'Jan 2027 IAL Grind Tracker'}
+function nextPhase(){clearInterval(T.int);T.run=0;T.ph=T.ph==='f'?(T.n%4===0&&T.n?'l':'s'):'f';T.left=PD();$('#tgo').textContent='Start';drawT()}
+function toggleTimer(){AC=AC||new AudioContext();AC.resume();
+ if(T.run){T.left=Math.max(0,Math.round((T.end-Date.now())/1e3));T.run=0;clearInterval(T.int);$('#tgo').textContent='Resume';drawT();return}
+ T.end=Date.now()+T.left*1e3;T.run=1;$('#tgo').textContent='Pause';
+ T.int=setInterval(()=>{T.left=Math.max(0,Math.round((T.end-Date.now())/1e3));drawT();if(!T.left)finish()},500)}
+function finish(){alarm();if(T.ph==='f'){const m=S.set.pf,g=T.goal&&Object.values(S.goals).flat().find(x=>x.id===T.goal);
+  if(g){g.spent=(g.spent||0)+m;if(g.spent>=g.min)g.done=1}else S.focus[todayS()]=(S.focus[todayS()]||0)+m;
+  S.fl.push({d:todayS(),s:$('#tsub').value,m});T.n++;save();render();$('#tnote').textContent='Focus session logged ('+m+' min). Take your break.'}
+ else $('#tnote').textContent='Break over. Ready for the next focus session?';nextPhase()}
+/* ---------- boot ---------- */
+$('#nav').innerHTML=TABS.map(t=>`<button data-t="${t[0]}">${t[1]}</button>`).join('');
+$('#nav').addEventListener('click',e=>{if(e.target.dataset.t)nav(e.target.dataset.t)});
+$('#tsub').innerHTML=SUB.map(s=>`<option value="${s.id}">${s.n}</option>`).join('')+'<option value="GEN">General</option>';
+let lastDay=todayS();
+setInterval(()=>{const c=$('#clk');if(todayS()!==lastDay){lastDay=todayS();vd=lastDay;render()}
+ if(c){const ms=cutDate()-Date.now();if(ms<=0)c.textContent='Day complete';else{const s=Math.floor(ms/1e3);c.textContent=pad(Math.floor(s/3600))+':'+pad(Math.floor(s%3600/60))+':'+pad(s%60)}}},1000);
+render();setTimer();nav(TABS.some(t=>t[0]===location.hash.slice(1))?location.hash.slice(1):'home');
+</script>
+</body>
+</html>
